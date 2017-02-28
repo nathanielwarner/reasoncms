@@ -232,6 +232,9 @@ class ThorCore
 						if ($disco_obj->get_element($k))
 						{
 							$disco_obj->set_value($k, $v);
+							if (property_exists($kEl, 'options'))
+								if (!in_array($kEl->value, $kEl->options))
+									$kEl->options[$kEl->value] = '<span style="color: red">' . $kEl->value . '</span>';
 						}
 					}
 				}
@@ -687,15 +690,6 @@ class ThorCore
 			case 'tinytext':
    				$q .= '`'.$k.'` tinytext NOT NULL , ';
    				break;
-			case 'enum':
-   				$q .= '`'.$k.'` enum(';
-   				foreach ($v['options'] as $option)
-   				{
-   					$q .= "'" . mysql_real_escape_string($option) . "',";
-   				}
-   				$q = substr( $q, 0, -1 ); // trim trailing comma
-   				$q .= ') NULL , ';
-   				break;
 			case 'text':
    				$q .= '`'.$k.'` text NOT NULL , ';
    				break;
@@ -923,11 +917,7 @@ class ThorCore
 			$db_structure[$node->tagAttrs['id']]['type'] = 'tinytext';
 			}
 			elseif (($node->tagName == 'radiogroup') || ($node->tagName == 'optiongroup')) {
-				$db_structure[$node->tagAttrs['id']]['type'] = 'enum';
-				$node_children = $node->tagChildren;
-				foreach ($node_children as $node2) {
-					$db_structure[$node->tagAttrs['id']]['options'][] = $node2->tagAttrs['value'];
-				}
+				$db_structure[$node->tagAttrs['id']]['type'] = 'tinytext';
 			}
 			elseif ($node->tagName == 'checkboxgroup') {
 				$node_children = $node->tagChildren;
