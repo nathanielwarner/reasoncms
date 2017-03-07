@@ -219,6 +219,10 @@ class ThorCore
 							}
 						}
 						$disco_obj->set_value($k, $v);
+						// Inject options if data reflects new options
+						if (property_exists($kEl, 'options'))
+							if (!in_array($kEl->value, $kEl->options))
+								$kEl->options[$kEl->value] = $kEl->value;
 					}
 					elseif (isset($display_values[$k]['group_id']))
 					{
@@ -232,9 +236,6 @@ class ThorCore
 						if ($disco_obj->get_element($k))
 						{
 							$disco_obj->set_value($k, $v);
-							if (property_exists($kEl, 'options'))
-								if (!in_array($kEl->value, $kEl->options))
-									$kEl->options[$kEl->value] = '<span style="color: red">' . $kEl->value . '</span>';
 						}
 					}
 				}
