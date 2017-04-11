@@ -100,7 +100,6 @@
 		'CustomizeTheme'=>array('file'=>'customize_theme.php','class'=>'CustomizeThemeModule'),
 		'SiteAccessDenied'=>array('file'=>'site_access_denied.php', 'class'=>'SiteAccessDeniedModule'),
 		'Newsletter'=>array('file'=>'newsletter/newsletter.php', 'class'=>'NewsletterModule'),
-		'DeleteRegistrationSlotData'=>array('file'=>'delete_slot_data.php', 'class'=>'DeleteRegistrationSlotDataModule'),
 		'ClearCache'=>array('file'=>'clear_cache.php', 'class'=>'ReasonClearCacheModule'),
 		'FormRecipients'=>array('file'=>'form_recipients.php', 'class'=>'FormRecipientsModule'),
 		'Analytics'=>array('file'=>'analytics.php', 'class'=>'AnalyticsModule'),
@@ -114,6 +113,7 @@
 	 	'SiteToPDF'=>array('file'=>'site_to_pdf.php','class'=>'ReasonSiteToPDFModule'),
 		'EntityStats'=>array('file'=>'entity_stats.php', 'class'=>'ReasonEntityStatsModule'),
 		'InvisiblesFinder'=>array('file'=>'invisibles_finder.php', 'class'=>'InvisiblesFinderModule'),
+		'SharingStats'=>array('file'=>'sharing_stats.php', 'class'=>'ReasonSharingStatsModule'),
 	);
 
 if (reason_file_exists('config/admin_modules/setup_local.php'))
