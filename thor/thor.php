@@ -346,17 +346,42 @@ class ThorCore
 	{
 		if ($this->get_thor_table() && $values)
 		{
-			$this->create_table_if_needed(); // create the table if it does not exist
-			if (!isset($values['date_created'])){
-				$values['date_created'] = get_mysql_datetime();
+            $this->create_table_if_needed(); // create the table if it does not exist
+            if (!isset($values['date_created'])){
+                $values['date_created'] = get_mysql_datetime();
+            }
+            if (!isset($values['date_user_submitted'])){
+                $values['date_user_submitted'] = get_mysql_datetime();
+            }
+            if (!get_current_db_connection_name()) connectDB($this->get_db_conn());
+            $reconnect_db = (get_current_db_connection_name() != $this->get_db_conn()) ? get_current_db_connection_name() : false;
+            if ($reconnect_db) connectDB($this->get_db_conn());
+            $GLOBALS['sqler']->mode = 'get_query';
+
+			$db_structure = $this->_build_db_structure();
+			foreach($db_structure as $k=>$v)
+			{
+				if (!($this->column_exists($k)))
+				{
+                    switch ($v['type'])
+					{
+                        case 'tinytext':
+                            $datatype = 'tinytext';
+                            break;
+                        case 'dateTimeText':
+                            $datatype = 'datetime';
+                            break;
+                        case 'timeText':
+                            $datatype = 'tinytext';
+                            break;
+                        case 'text':
+                            $datatype = 'text';
+                            break;
+                    }
+                    db_query("ALTER TABLE " . $this->get_thor_table() . " ADD COLUMN " . $k . " " . $datatype);
+				}
 			}
-			if (!isset($values['date_user_submitted'])){
-				$values['date_user_submitted'] = get_mysql_datetime();
-			}
-			if (!get_current_db_connection_name()) connectDB($this->get_db_conn());
-			$reconnect_db = (get_current_db_connection_name() != $this->get_db_conn()) ? get_current_db_connection_name() : false;
-			if ($reconnect_db) connectDB($this->get_db_conn());
-  			$GLOBALS['sqler']->mode = 'get_query';
+
   			$query = $GLOBALS['sqler']->insert( $this->get_thor_table(), $values );
   			$result = db_query($query);
   			$insert_id = mysql_insert_id();
