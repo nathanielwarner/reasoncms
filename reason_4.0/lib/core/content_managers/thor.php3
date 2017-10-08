@@ -191,7 +191,13 @@
                     $this->show_error_jumps = false;
                 }
                 $data_manager_link = $this->admin_page->make_link( array( 'cur_module' => 'ThorData' ));
-				$publish_status_text .= '<p><strong>This form has stored data. </strong><a href="'.$data_manager_link.'">Manage stored data</a><br>You can edit the form, but if you remove a field, it will remain in the database to prevent unintentional data loss.</p>';
+				$publish_status_text .= '<p><strong>This form has stored data. </strong><a href="'.$data_manager_link.'">Manage stored data</a><br>You can edit the form, but if you remove a field, it will remain in the database to prevent unintentional data loss. You will not be able to change the type of existing fields.</p>';
+
+				echo '<script type="text/javascript">window.dbTableExists = true;</script>';
+			}
+			else
+			{
+                echo '<script type="text/javascript">window.dbTableExists = false;</script>';
 			}
 			
 			$this->add_element('publish_status', 'comment', array('text'=>$publish_status_text));

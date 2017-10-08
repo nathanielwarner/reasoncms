@@ -310,7 +310,7 @@
         })(this)), 10);
       }
       allowTypeChange = Formbuilder.options.ALLOW_TYPE_CHANGE;
-      if (this.model.attributes.field_type === "submit_button") {
+      if (window.dbTableExists || this.model.attributes.field_type === "submit_button") {
         allowTypeChange = false;
       }
       setTimeout(((function(_this) {
