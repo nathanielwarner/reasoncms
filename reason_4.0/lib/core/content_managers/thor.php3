@@ -271,6 +271,50 @@
 			}
 			$this->setup_tableless_element();
 		}
+
+		function run_error_checks_deleted_fields()
+		{
+            $pendingXmlString = $this->get_value('thor_content');
+            $pendingXml = simplexml_load_string($pendingXmlString);
+            $pendingElIds = array();
+            foreach ($pendingXml->children() as $childEl)
+            {
+                $childAttribs = $childEl->attributes();
+                $elId = $childAttribs->id;
+                array_push($pendingElIds, $elId);
+            }
+
+            $dbXmlString = $this->entity->get_value('thor_content');
+            $dbXml = simplexml_load_string($dbXmlString);
+            if ($dbXml != null && $this->db_table_exists_check())
+			{
+				foreach ($dbXml->children() as $childEl)
+				{
+                    $childAttribs = $childEl->attributes();
+                    $dbElId = $childAttribs->id;
+                    $in_array = false;
+                    foreach ($pendingElIds as $pendingElId)
+					{
+						if (((string)$pendingElId) === ((string)$dbElId))
+						{
+                            $in_array = true;
+                        }
+					}
+					if (!$in_array)
+					{
+						$domVersionE = dom_import_simplexml($pendingXml);
+						$domVersion = new DOMDocument();
+						$domVersion->appendChild($domVersion->importNode($domVersionE,true));
+						$domNode = dom_import_simplexml($childEl);
+						$domNode->setAttribute('hidden', 'true');
+						$domVersion->documentElement->appendChild($domVersion->importNode($domNode,true));
+						$pendingXml = simplexml_import_dom($domVersion);
+					}
+					var_dump($pendingXml);
+				}
+                $this->set_value('thor_content', $pendingXml->asXML());
+			}
+		}
 		
 		function pre_error_check_advanced_options()
 		{
@@ -390,6 +434,7 @@
 			{
 				$this->set_error('submission_limit','You have set a submission limit, but this form is not saving data to a database. Please enable the database option or remove the submission limit.');
 			}
+			$this->run_error_checks_deleted_fields();
 			$this->run_error_checks_advanced_options();
 			$this->run_error_checks_event_tickets();
 		}
