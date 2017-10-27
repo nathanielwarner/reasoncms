@@ -43,6 +43,7 @@ class formbuilder2Type extends textareaType
 		"checkboxgroup" => "checkboxes",
 		"optiongroup" => "dropdown",
 		"hidden" => "hidden_field",
+		"deleted" => "deleted",
 		"upload" => "file",
 		"event_tickets" => "event_tickets",
 		"date" => "date",
@@ -96,6 +97,7 @@ class formbuilder2Type extends textareaType
 		$this->mainFieldTranslators = array(
 			new AttributeTranslator("label"),
 			new AttributeTranslator("prefill_key"),
+			new AttributeTranslator("deleted"),
 			new RestrictableAttributeTranslator("file", "file_upload_extension_restrictions", "restrict_extensions"),
 			new RestrictableAttributeTranslator("file", "file_upload_type_restrictions", "restrict_types"),
 			new RestrictableAttributeTranslator("file", "file_upload_size_restriction", "restrict_maxsize"),
@@ -104,7 +106,6 @@ class formbuilder2Type extends textareaType
 			new RestrictableAttributeTranslator("text,paragraph", "default_value", "value"),
 			new IdentityTranslator("required"),
 			new IdentityTranslator("date_field_time_enabled"),
-			new IdentityTranslator("deleted"),
 			new DescriptionPropagatorTranslator("hidden_field", "value"),
 			new DescriptionPropagatorTranslator("text_comment", ""),
 			new RestrictableAttributeTranslator("event_tickets", "event_tickets_event_id", "event_id"),
