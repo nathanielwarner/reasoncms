@@ -104,6 +104,7 @@ class formbuilder2Type extends textareaType
 			new RestrictableAttributeTranslator("text,paragraph", "default_value", "value"),
 			new IdentityTranslator("required"),
 			new IdentityTranslator("date_field_time_enabled"),
+			new IdentityTranslator("deleted"),
 			new DescriptionPropagatorTranslator("hidden_field", "value"),
 			new DescriptionPropagatorTranslator("text_comment", ""),
 			new RestrictableAttributeTranslator("event_tickets", "event_tickets_event_id", "event_id"),

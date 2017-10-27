@@ -306,11 +306,10 @@
 						$domVersion = new DOMDocument();
 						$domVersion->appendChild($domVersion->importNode($domVersionE,true));
 						$domNode = dom_import_simplexml($childEl);
-						$domNode->setAttribute('hidden', 'true');
+						$domNode->setAttribute('deleted', 'true');
 						$domVersion->documentElement->appendChild($domVersion->importNode($domNode,true));
 						$pendingXml = simplexml_import_dom($domVersion);
 					}
-					var_dump($pendingXml);
 				}
                 $this->set_value('thor_content', $pendingXml->asXML());
 			}
