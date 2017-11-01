@@ -1191,6 +1191,7 @@
         DEFAULT_VALUE: 'default_value',
         FIELD_TYPE: 'field_type',
         REQUIRED: 'required',
+        DELETED: 'deleted',
         DATE_FIELD_TIME_ENABLED: 'date_field_time_enabled',
         PREFILL_KEY: 'prefill_key',
         ADMIN_ONLY: 'admin_only',
@@ -1438,7 +1439,7 @@
     };
 
     Formbuilder.prototype.performInitialUniqueIdPass = function(args) {
-      var bootstrapData, f, fields, i, j, k, l, len, len1, opt, ref;
+      var bootstrapData, deletedFields, f, fields, h, i, j, k, l, len, len1, len2, m, numRemoved, opt, ref, results;
       console.log("performInitialUniqueIdPass start with draggable fix...");
       this.madeInitialIdAdjustments = false;
       this.dupeIdTracker = {};
@@ -1450,8 +1451,13 @@
       } else {
         fields = bootstrapData.fields;
       }
+      h = 0;
+      deletedFields = [];
       for (i = j = 0, len = fields.length; j < len; i = ++j) {
         f = fields[i];
+        if (f.deleted) {
+          deletedFields.push(h);
+        }
         if ((f.cid == null) || this.trackDupes(f.cid)) {
           this.elsAndOptsToReId.push("element:" + i);
           if (f.field_type !== "submit_button") {
@@ -1468,8 +1474,17 @@
             }
           }
         }
+        h++;
       }
-      return this.reassignIdentifiers(fields);
+      this.reassignIdentifiers(fields);
+      numRemoved = 0;
+      results = [];
+      for (m = 0, len2 = deletedFields.length; m < len2; m++) {
+        h = deletedFields[m];
+        fields.splice(h - numRemoved, 1);
+        results.push(numRemoved++);
+      }
+      return results;
     };
 
     function Formbuilder(instanceOpts) {
