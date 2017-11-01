@@ -320,7 +320,7 @@
 					';
 			$select_form_b = '<form action="?" class="jumpNavigation" name="archive_b_switch" method="get">with
 				<select name="archive_b" class="jumpDestination siteMenu" id="archive_b_switch_select">
-					<option value="--"'.(empty( $b_id ) ? ' selected="selected"' : '' ).'>--</option>';
+					<option value=""'.(empty( $b_id ) ? ' selected="selected"' : '' ).'>--</option>';
 			
 			foreach( $this->history AS $h )
 			{
