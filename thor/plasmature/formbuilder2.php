@@ -112,6 +112,8 @@ class formbuilder2Type extends textareaType
 			new RestrictableAttributeTranslator("event_tickets", "event_tickets_num_total_available", "num_total_available"),
 			new RestrictableAttributeTranslator("event_tickets", "event_tickets_max_per_person", "max_per_person"),
 			new RestrictableAttributeTranslator("event_tickets", "event_tickets_event_close_datetime", "event_close_datetime"),
+            new RestrictableAttributeTranslator("event_tickets", "event_tickets_cutoff_passed_message", "cutoff_passed_message"),
+            new RestrictableAttributeTranslator("event_tickets", "event_tickets_sold_out_message", "sold_out_message"),
 		);
 
 		$this->optionTranslators = array(

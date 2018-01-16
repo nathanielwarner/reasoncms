@@ -275,8 +275,15 @@
 			$model =& $this->get_model();
 			$eventTitle = $model->get_event_ticket_title();
 			$message = "<h3>Tickets for $eventTitle</h3>";
-			$message .= "<p>No tickets are available for this event.</p>";
-            $message .= $model->event_tickets_get_request()['thor_info']['sold_out_message'];
+			$custom_message = $model->event_tickets_get_request()['thor_info']['sold_out_message'];
+			if (!empty($custom_message))
+			{
+				$message .= $custom_message;
+			}
+			else
+			{
+                $message .= "<p>No tickets are available for this event.</p>";
+			}
 
 			return $message;
 		}
