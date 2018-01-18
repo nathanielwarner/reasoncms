@@ -589,11 +589,14 @@
 					if (empty($emailNode)) {
 						$this->set_error('thor_content', "An event ticket form requires a short text input with the exact label 'Your Email'. Please add that element or change the email field label to 'Your Email'.");
 					}
-					$eventTicketsClose = $xml->xpath("/*/event_tickets")[0]['event_close_datetime'];
-					try {
-						new Datetime($eventTicketsClose);
-					} catch (Exception $e) {
-						$this->set_error('thor_content', "Invalid datetime cutoff entered in event registration formbuilder: $eventTicketsClose");
+					$eventTickets = $xml->xpath("/*/event_tickets");
+					for ($i = 0; $i < sizeof($eventTickets); $i++) {
+                        $eventTicketsClose = $eventTickets[$i]['event_close_datetime'];
+                        try {
+                            new Datetime($eventTicketsClose);
+                        } catch (Exception $e) {
+                            $this->set_error('thor_content', "Invalid datetime cutoff entered in event registration formbuilder: $eventTicketsClose");
+                        }
 					}
 				}
 			} catch (Exception $exc) {
