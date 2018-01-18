@@ -1381,6 +1381,8 @@ class ThorCore
 		if (array_key_exists('num_total_available', $element->tagAttrs)) {
 			$numTotalAvailableForEvent = $element->tagAttrs['num_total_available'];
 		}
+		// Default to 1 ticket per person
+		$numMaxPerPersonForEvent = 1;
 		if (array_key_exists('max_per_person', $element->tagAttrs)) {
 			$numMaxPerPersonForEvent = $element->tagAttrs['max_per_person'];
 		}
@@ -1396,11 +1398,6 @@ class ThorCore
 			$numTicketsCurrentlyRemaining = 100000;
 		}
 		
-		// If we don't have as max per person limit, use 1 ticket per person
-		if (intval($numMaxPerPersonForEvent) < 1) {
-			$numMaxPerPersonForEvent = 1;
-		}
-
 		// Generate list of number of tickets a person can select, being sensitive
 		// to the number of tickets still available (except when editing a form submission)
 		$allOptions = array();
