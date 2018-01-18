@@ -181,10 +181,9 @@ class ThorCore
 		{
 			foreach ($xml->document->tagChildren as $node)
 			{
-				if (!$node->tagAttrs['deleted'])
-				{
-                    // echo "running on [" . $node->tagName . "]...<br>";
-                    if ($node->tagName == 'input') $this->_transform_input($node, $disco_obj);
+				if (!$node->tagAttrs['deleted']) {
+					// echo "running on [" . $node->tagName . "]...<br>";
+					if ($node->tagName == 'input') $this->_transform_input($node, $disco_obj);
 					elseif ($node->tagName == 'date') $this->_transform_date($node, $disco_obj);
 					elseif ($node->tagName == 'time') $this->_transform_time($node, $disco_obj);
 					elseif ($node->tagName == 'textarea') $this->_transform_textarea($node, $disco_obj);
@@ -194,11 +193,11 @@ class ThorCore
 					elseif ($node->tagName == 'hidden') $this->_transform_hidden($node, $disco_obj);
 					elseif ($node->tagName == 'comment') $this->_transform_comment($node, $disco_obj);
 					elseif ($node->tagName == 'upload') {
-                        $disco_obj->form_enctype = "multipart/form-data";
-                        $this->_transform_upload($node, $disco_obj);
-                    } elseif ($node->tagName == 'event_tickets') {
-                        $this->_transform_event_tickets($node, $disco_obj);
-                    }
+						$disco_obj->form_enctype = "multipart/form-data";
+						$this->_transform_upload($node, $disco_obj);
+					} elseif ($node->tagName == 'event_tickets') {
+						$this->_transform_event_tickets($node, $disco_obj);
+					}
 				}
 			}
 
@@ -348,41 +347,37 @@ class ThorCore
 	 */
 	function insert_values($values, $disco_obj)
 	{
-		if ($this->get_thor_table() && $values)
-		{
-            $this->create_table_if_needed(); // create the table if it does not exist
-            if (!isset($values['date_created'])){
-                $values['date_created'] = get_mysql_datetime();
-            }
-            if (!isset($values['date_user_submitted'])){
-                $values['date_user_submitted'] = get_mysql_datetime();
-            }
-            if (!get_current_db_connection_name()) connectDB($this->get_db_conn());
-            $reconnect_db = (get_current_db_connection_name() != $this->get_db_conn()) ? get_current_db_connection_name() : false;
-            if ($reconnect_db) connectDB($this->get_db_conn());
-            $GLOBALS['sqler']->mode = 'get_query';
+		if ($this->get_thor_table() && $values) {
+			$this->create_table_if_needed(); // create the table if it does not exist
+			if (!isset($values['date_created'])) {
+				$values['date_created'] = get_mysql_datetime();
+			}
+			if (!isset($values['date_user_submitted'])) {
+				$values['date_user_submitted'] = get_mysql_datetime();
+			}
+			if (!get_current_db_connection_name()) connectDB($this->get_db_conn());
+			$reconnect_db = (get_current_db_connection_name() != $this->get_db_conn()) ? get_current_db_connection_name() : false;
+			if ($reconnect_db) connectDB($this->get_db_conn());
+			$GLOBALS['sqler']->mode = 'get_query';
 
 			$db_structure = $this->_build_db_structure();
-			foreach($db_structure as $k=>$v)
-			{
-				if (!($this->column_exists($k)))
-				{
-                    switch ($v['type'])
-					{
-                        case 'tinytext':
-                            $datatype = 'tinytext';
-                            break;
-                        case 'dateTimeText':
-                            $datatype = 'datetime';
-                            break;
-                        case 'timeText':
-                            $datatype = 'tinytext';
-                            break;
-                        case 'text':
-                            $datatype = 'text';
-                            break;
-                    }
-                    db_query("ALTER TABLE " . $this->get_thor_table() . " ADD COLUMN " . $k . " " . $datatype);
+			foreach ($db_structure as $k => $v) {
+				if (!($this->column_exists($k))) {
+					switch ($v['type']) {
+						case 'tinytext':
+							$datatype = 'tinytext';
+							break;
+						case 'dateTimeText':
+							$datatype = 'datetime';
+							break;
+						case 'timeText':
+							$datatype = 'tinytext';
+							break;
+						case 'text':
+							$datatype = 'text';
+							break;
+					}
+					db_query("ALTER TABLE " . $this->get_thor_table() . " ADD COLUMN " . $k . " " . $datatype);
 				}
 			}
 
@@ -1386,6 +1381,8 @@ class ThorCore
 		if (array_key_exists('num_total_available', $element->tagAttrs)) {
 			$numTotalAvailableForEvent = $element->tagAttrs['num_total_available'];
 		}
+		// Default to 1 ticket per person
+		$numMaxPerPersonForEvent = 1;
 		if (array_key_exists('max_per_person', $element->tagAttrs)) {
 			$numMaxPerPersonForEvent = $element->tagAttrs['max_per_person'];
 		}
@@ -1401,11 +1398,6 @@ class ThorCore
 			$numTicketsCurrentlyRemaining = 100000;
 		}
 		
-		// If we don't have as max per person limit, use 1 ticket per person
-		if (intval($numMaxPerPersonForEvent) < 1) {
-			$numMaxPerPersonForEvent = 1;
-		}
-
 		// Generate list of number of tickets a person can select, being sensitive
 		// to the number of tickets still available (except when editing a form submission)
 		$allOptions = array();
