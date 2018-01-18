@@ -181,7 +181,7 @@ class ThorCore
 		{
 			foreach ($xml->document->tagChildren as $node)
 			{
-				if (!$node->tagAttrs['deleted']) {
+				if (array_key_exists('deleted', $node->tagAttrs) && !$node->tagAttrs['deleted']) {
 					// echo "running on [" . $node->tagName . "]...<br>";
 					if ($node->tagName == 'input') $this->_transform_input($node, $disco_obj);
 					elseif ($node->tagName == 'date') $this->_transform_date($node, $disco_obj);
