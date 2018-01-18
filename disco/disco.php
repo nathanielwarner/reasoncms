@@ -592,7 +592,7 @@
 			{
 				// Make sure we enable userland_changeable for prepopulatable elements
 				$ele = $this->get_element($element_name);
-				if (property_exists($ele, 'userland_changeable')) {
+				if (is_object($ele) && property_exists($ele, 'userland_changeable')) {
 					$ele->userland_changeable = true;
 				}
 				
