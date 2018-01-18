@@ -191,12 +191,11 @@
                     $new_thor_content = ($this->get_value( 'thor_content' )) ? $this->get_value( 'thor_content' ) : $old_thor_content;
                     if ($new_thor_content != $old_thor_content)
                     {
-                        $data_manager_link = unhtmlentities($this->admin_page->make_link( array( 'cur_module' => 'ThorData' )));
                         $this->set_error( 'thor_content', 'Changes could not be saved because of associated data. You can change the form contents if you first <a href="'.$data_manager_link.'">delete the data</a> associated with the form.');
                         $this->show_error_jumps = false;
                     }
                     $data_manager_link = $this->admin_page->make_link( array( 'cur_module' => 'ThorData' ));
-                    $publish_status_text .= '<p><strong>This form has stored data. </strong><a href="'.$data_manager_link.'">Manage stored data</a><br>You can edit the form, but if you remove a field, it will remain in the database to prevent unintentional data loss. You will not be able to change the type of existing fields.</p>';
+                    $publish_status_text .= '<p><strong>This form has stored data. </strong><a href="'.$data_manager_link.'">Manage stored data</a><br>You can add new form fields and modify existing fields, but if you remove a field, the removed field\'s data will persist until you delete the stored data for this form. Changing the type of an existing field is unsupported.</p>';
 				}
 
 				echo '<script type="text/javascript">window.dbTableExists = true;</script>';
@@ -405,7 +404,7 @@
                 }
                 $this->remove_element('thor_content');
                 $data_manager_link = $this->admin_page->make_link( array( 'cur_module' => 'ThorData' ));
-                $data_comment= '<div id="manageDataNote"><p><strong>This form has stored data, and uses a custom thor view. </strong><a href="'.$data_manager_link.'">Manage stored data</a></p>';
+                $data_comment= '<div id="manageDataNote"><p><strong>This form has stored data, and has custom form logic installed. </strong><a href="'.$data_manager_link.'">Manage stored data</a></p>';
                 $data_comment.='<p>To edit this form, you will first need to delete the stored data.</p></div>';
                 $this->change_element_type('thor_comment','comment',array('text'=>$data_comment));
             }
