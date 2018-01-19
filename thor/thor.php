@@ -176,28 +176,31 @@ class ThorCore
 	function append_thor_elements_to_form(&$disco_obj, $include_submit = true)
 	{
 		$xml = $this->get_thor_xml();
-		// echo "<PRE>" . $xml . "</PRE>";
 		if ($xml && $disco_obj)
 		{
 			foreach ($xml->document->tagChildren as $node)
 			{
-				if (array_key_exists('deleted', $node->tagAttrs) && !$node->tagAttrs['deleted']) {
-					// echo "running on [" . $node->tagName . "]...<br>";
-					if ($node->tagName == 'input') $this->_transform_input($node, $disco_obj);
-					elseif ($node->tagName == 'date') $this->_transform_date($node, $disco_obj);
-					elseif ($node->tagName == 'time') $this->_transform_time($node, $disco_obj);
-					elseif ($node->tagName == 'textarea') $this->_transform_textarea($node, $disco_obj);
-					elseif ($node->tagName == 'radiogroup') $this->_transform_radiogroup($node, $disco_obj);
-					elseif ($node->tagName == 'checkboxgroup') $this->_transform_checkboxgroup($node, $disco_obj);
-					elseif ($node->tagName == 'optiongroup') $this->_transform_optiongroup($node, $disco_obj);
-					elseif ($node->tagName == 'hidden') $this->_transform_hidden($node, $disco_obj);
-					elseif ($node->tagName == 'comment') $this->_transform_comment($node, $disco_obj);
-					elseif ($node->tagName == 'upload') {
-						$disco_obj->form_enctype = "multipart/form-data";
-						$this->_transform_upload($node, $disco_obj);
-					} elseif ($node->tagName == 'event_tickets') {
-						$this->_transform_event_tickets($node, $disco_obj);
-					}
+				// Jan 2018: Added ability to edit forms with data. The formbuilder JS now adds a 'deleted'
+				// attr to fields on save. It sets deleted="true" when a user deletes a field that already has data.
+				// Handle deleted fields at this stage by not adding them to the form
+				if (array_key_exists('deleted', $node->tagAttrs) && $node->tagAttrs['deleted'] === 'true') {
+					continue;
+				}
+
+				if ($node->tagName == 'input') $this->_transform_input($node, $disco_obj);
+				elseif ($node->tagName == 'date') $this->_transform_date($node, $disco_obj);
+				elseif ($node->tagName == 'time') $this->_transform_time($node, $disco_obj);
+				elseif ($node->tagName == 'textarea') $this->_transform_textarea($node, $disco_obj);
+				elseif ($node->tagName == 'radiogroup') $this->_transform_radiogroup($node, $disco_obj);
+				elseif ($node->tagName == 'checkboxgroup') $this->_transform_checkboxgroup($node, $disco_obj);
+				elseif ($node->tagName == 'optiongroup') $this->_transform_optiongroup($node, $disco_obj);
+				elseif ($node->tagName == 'hidden') $this->_transform_hidden($node, $disco_obj);
+				elseif ($node->tagName == 'comment') $this->_transform_comment($node, $disco_obj);
+				elseif ($node->tagName == 'upload') {
+					$disco_obj->form_enctype = "multipart/form-data";
+					$this->_transform_upload($node, $disco_obj);
+				} elseif ($node->tagName == 'event_tickets') {
+					$this->_transform_event_tickets($node, $disco_obj);
 				}
 			}
 
