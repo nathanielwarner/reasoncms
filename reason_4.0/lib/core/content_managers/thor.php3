@@ -196,10 +196,12 @@
 					$publish_status_text .= '<p><strong>This form has stored data. </strong><a href="' . $data_manager_link . '">Manage stored data</a><br>You can add new form fields and modify existing fields, but if you remove a field, the removed field\'s data will persist until you delete the stored data for this form. Changing the type of an existing field is unsupported.</p>';
 				}
 
-				echo '<script type="text/javascript">window.dbTableExists = true;</script>';
+				$databaseTableExistsJsValue = "true";
 			} else {
-				echo '<script type="text/javascript">window.dbTableExists = false;</script>';
+				$databaseTableExistsJsValue = "false";
 			}
+			$databaseTableExistsFlag = '<script type="text/javascript">window.dbTableExists = ' . $databaseTableExistsJsValue . ';</script>';
+			$this->add_element('database_table_exists_flag', 'comment', array('text' => $databaseTableExistsFlag));
 			
 			$this->add_element('publish_status', 'comment', array('text'=>$publish_status_text));
 			
