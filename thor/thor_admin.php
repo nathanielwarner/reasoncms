@@ -20,6 +20,8 @@ include_once( TYR_INC . 'tyr.php');
 class ThorAdmin extends TableAdmin
 {
 	var $_thor_core;
+	var $_form;
+	var $_user_netid;
 		
 	function ThorAdmin()
 	{
@@ -33,6 +35,26 @@ class ThorAdmin extends TableAdmin
 	function &get_thor_core()
 	{
 		return $this->_thor_core;
+	}
+
+	function set_form($form)
+	{
+		$this->_form = $form;
+	}
+
+	function get_form()
+	{
+		return $this->_form;
+	}
+
+	function set_user_netid($user)
+	{
+		$this->_user_netid = $user;
+	}
+
+	function get_user_netid()
+	{
+		return $this->_user_netid;
 	}
 	
 	function init_thor_admin($thor_core = '')
@@ -74,6 +96,18 @@ class ThorAdmin extends TableAdmin
 	function _delete_data()
 	{
 		$tc =& $this->get_thor_core();
+		$xml = $this->get_form()->get_value('thor_content');
+		$formElements = simplexml_load_string($xml);
+		foreach ($formElements->children() as $element)
+		{
+			if (((string) $element->attributes()->deleted) == 'true')
+			{
+				$dom = dom_import_simplexml($element);
+				$dom->parentNode->removeChild($dom);
+			}
+		}
+		$xml = $formElements->asXML();
+		$updateResult = reason_update_entity($this->get_form()->id(), $this->get_user_netid(), ['thor_content'=>$xml]);
 		return $tc->delete_table();
 	}
 	
