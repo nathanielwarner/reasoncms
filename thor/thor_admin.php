@@ -100,7 +100,7 @@ class ThorAdmin extends TableAdmin
 		$formElements = simplexml_load_string($xml);
 
 		#https://stackoverflow.com/questions/262351/16062633#16062633
-		foreach($formElements->xpath("//input[@deleted='true']") as $ele) {
+		foreach($formElements->xpath("//*[@deleted='true']") as $ele) {
 			unset($ele->{0});
 		}
 		$xml = $formElements->asXML();
