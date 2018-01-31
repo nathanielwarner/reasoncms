@@ -98,13 +98,10 @@ class ThorAdmin extends TableAdmin
 		$tc =& $this->get_thor_core();
 		$xml = $this->get_form()->get_value('thor_content');
 		$formElements = simplexml_load_string($xml);
-		foreach ($formElements->children() as $element)
-		{
-			if (((string) $element->attributes()->deleted) == 'true')
-			{
-				$dom = dom_import_simplexml($element);
-				$dom->parentNode->removeChild($dom);
-			}
+
+		#https://stackoverflow.com/questions/262351/16062633#16062633
+		foreach($formElements->xpath("//input[@deleted='true']") as $ele) {
+			unset($ele->{0});
 		}
 		$xml = $formElements->asXML();
 		$updateResult = reason_update_entity($this->get_form()->id(), $this->get_user_id(), ['thor_content'=>$xml]);
