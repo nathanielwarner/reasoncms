@@ -471,6 +471,10 @@ class ThorCore
 		foreach ($xml->document->tagChildren as $node)
 		{	
 			if ($node->tagName == 'upload') {
+				// Skip deleted nodes
+				if (array_key_exists('deleted', $node->tagAttrs) && $node->tagAttrs['deleted'] === 'true') {
+					continue;
+				}
 				$col_id = $node->tagAttrs['id'];
 
 				$disco_el = $disco_obj->get_element($col_id);
