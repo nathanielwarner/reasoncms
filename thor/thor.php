@@ -1386,8 +1386,8 @@ class ThorCore
 		}
 		// Default to 1 ticket per person
 		$numMaxPerPersonForEvent = 1;
-		if (array_key_exists('max_per_person', $element->tagAttrs)) {
-			$numMaxPerPersonForEvent = $element->tagAttrs['max_per_person'];
+		if (array_key_exists('max_per_person', $element->tagAttrs) && (int)$element->tagAttrs['max_per_person'] > 0) {
+			$numMaxPerPersonForEvent = (int)$element->tagAttrs['max_per_person'];
 		}
 		if (array_key_exists('event_close_datetime', $element->tagAttrs)) {
 			$closeAfterDatetimeForEvent = $element->tagAttrs['event_close_datetime'];
