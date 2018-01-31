@@ -21,7 +21,7 @@ class ThorAdmin extends TableAdmin
 {
 	var $_thor_core;
 	var $_form;
-	var $_user_netid;
+	var $_user_id;
 		
 	function ThorAdmin()
 	{
@@ -47,14 +47,14 @@ class ThorAdmin extends TableAdmin
 		return $this->_form;
 	}
 
-	function set_user_netid($user)
+	function set_user_id($user)
 	{
-		$this->_user_netid = $user;
+		$this->_user_id = $user;
 	}
 
-	function get_user_netid()
+	function get_user_id()
 	{
-		return $this->_user_netid;
+		return $this->_user_id;
 	}
 	
 	function init_thor_admin($thor_core = '')
@@ -107,7 +107,7 @@ class ThorAdmin extends TableAdmin
 			}
 		}
 		$xml = $formElements->asXML();
-		$updateResult = reason_update_entity($this->get_form()->id(), $this->get_user_netid(), ['thor_content'=>$xml]);
+		$updateResult = reason_update_entity($this->get_form()->id(), $this->get_user_id(), ['thor_content'=>$xml]);
 		return $tc->delete_table();
 	}
 	
