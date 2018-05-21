@@ -193,7 +193,7 @@
 						$this->show_error_jumps = false;
 					}
 					$data_manager_link = $this->admin_page->make_link(array('cur_module' => 'ThorData'));
-					$publish_status_text .= '<p><strong>This form has stored data. </strong><a href="' . $data_manager_link . '">Manage stored data</a><br>You can add new form fields and modify existing fields, but if you remove a field, the removed field\'s data will persist until you delete the stored data for this form. Changing the type of an existing field is unsupported.</p>';
+					$publish_status_text .= '<p><strong>This form has stored data. </strong><a href="' . $data_manager_link . '">Manage stored data</a><br>If you remove a field, the field\'s data will remain available until you delete the stored data for this form. You cannot change the type of existing fields.</p>';
 				}
 
 				$databaseTableExistsJsValue = "true";
