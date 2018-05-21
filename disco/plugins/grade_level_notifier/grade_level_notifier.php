@@ -98,8 +98,19 @@
 				
 				$grade_level = self::get_grade_level($element_value);
 								
-				$formatted_grade_level_notification = '<div class="smallText gradeLevelNotification">' .
-					'Current Reading Grade Level: <span class="currentGradeLevel">' . $grade_level . '</span></div>';
+				$formatted_grade_level_notification = '<div class="smallText gradeLevelNotification">';
+				
+				
+				$label = 'Grade Level';
+				
+				if(defined('REASON_GRADE_LEVEL_LABEL') && REASON_GRADE_LEVEL_LABEL)
+				{
+					$label = REASON_GRADE_LEVEL_LABEL;
+				}
+				
+				$formatted_grade_level_notification .= '<span class="gradeLevelLabel">' . $label . '</span>: <span class="currentGradeLevel">' . $grade_level . '</span>';
+				
+				$formatted_grade_level_notification .= '</div>';
 				
 				$this->disco_form->add_comments($field, $formatted_grade_level_notification);
 			}
