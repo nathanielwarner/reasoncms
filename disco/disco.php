@@ -1627,8 +1627,9 @@
 					{
 						$element_names[] = $member_name;
 					}
-				}	
+				}
 			}
+			var_dump($this->get_order());
 			return $element_names;
 		} // }}}
 		
