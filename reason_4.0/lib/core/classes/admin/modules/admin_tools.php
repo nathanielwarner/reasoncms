@@ -139,6 +139,11 @@ class ReasonAdminToolsModule extends DefaultModule
 					'description' => 'Provides statistics on how frequently each type and module is used by each site',
 					'safety_level' => 'safe',
 				),
+				'?site_id='.id_of('master_admin').'&cur_module=GroupUsage' => array(
+					'title' => 'Group Usage',
+					'description' => 'Provides statistics on how this reason instance uses groups for access control',
+					'safety_level' => 'safe',
+				),
 				'?cur_module=FindPageFromURL' => array(  
 					'title' => 'Find Page From URL',
 					'description' => 'Given a URL, find all pages that have been at that URL',
@@ -169,6 +174,11 @@ class ReasonAdminToolsModule extends DefaultModule
 				REASON_HTTP_BASE_PATH.'scripts/move/move_entities_among_sites.php' => array(
 					'title' => 'Move Entities',
 					'description' => 'Move entities from one site to another. Additional steps required if moving pages or assets.',
+					'safety_level' => 'careful',
+				),
+				'?cur_module=CopyBorrowing&site_id='.id_of('master_admin') => array(
+					'title' => 'Copy Borrowing Between Sites',
+					'description' => 'Copy borrow relationships from one site to another',
 					'safety_level' => 'careful',
 				),
 				REASON_HTTP_BASE_PATH.'scripts/search/find_and_replace.php' => array(

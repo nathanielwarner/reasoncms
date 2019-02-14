@@ -231,6 +231,7 @@
 				}
 				$filter_current_setting = (REASON_FORMS_THOR_DEFAULT_AKISMET_FILTER ? 'yes' : 'no');
 				$this->set_element_properties('apply_akismet_filter', array('options' => array('' => 'Default (currently set to "' . $filter_current_setting  . '")', 'true' => 'Yes', 'false' => 'No'), 'add_empty_value_to_top' => false));
+				$this->add_comments('email_submitter',form_comment('Emails a confirmation to the logged-in user or the email address in a field labeled exactly "Your Email" (no colon or other characters)'));
 				$this->setup_thor_view_element();
 			}
 			else
@@ -241,7 +242,8 @@
 					// but transition the element to hidden since the assumption here
 					// is users shouldn't edit the value. But a error checking script
 					// (like for event tickets) may need to actually set these values
-					if (!empty($this->get_value($k))) {
+					$value = $this->get_value($k);
+					if (!empty($value)) {
 						$this->change_element_type($k, "hidden");
 					} else {
 						$this->remove_element($k);
